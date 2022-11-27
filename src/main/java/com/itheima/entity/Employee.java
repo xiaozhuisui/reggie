@@ -27,11 +27,11 @@ public class Employee implements Serializable {
 
     private String idNumber;//身份证号码
 
-    private Integer status;
+    private Integer status;//状态
 
-    private LocalDateTime createTime;
+    private LocalDateTime createTime;//创建时间
 
-    private LocalDateTime updateTime;
+    private LocalDateTime updateTime;//更新时间
 
     @TableField(fill = FieldFill.INSERT)
     private Long createUser;
