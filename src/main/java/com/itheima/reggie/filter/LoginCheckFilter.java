@@ -2,6 +2,7 @@ package com.itheima.reggie.filter;
 
 
 import com.alibaba.fastjson.JSON;
+import com.itheima.reggie.common.BaseContext;
 import com.itheima.reggie.common.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
@@ -23,14 +24,15 @@ public class LoginCheckFilter implements Filter {
     HttpServletRequest request = (HttpServletRequest) servletRequest;
     HttpServletResponse response = (HttpServletResponse) servletResponse;
     String[] urls = new String[]{"/employee/login", "/employee/logout", "/backend/**", "/front/**"};
-    log.info("拦截到请求:{},{},{},{},{}", request.getRequestURI(), request.getMethod(),request.getParts(),request.getQueryString(),request.getRemoteHost());
+    log.info("拦截到请求:{},{},{},{}", request.getRequestURI(), request.getMethod(),request.getQueryString(),request.getRemoteHost());
     boolean checkResult = check(urls, request.getRequestURI());
     System.out.println(checkResult);
-    if (!checkResult && request.getSession().getAttribute("employee") != null) {
+    if (!checkResult && request.getSession().getAttribute("employee") == null) {
 //      说明未登录
       response.getWriter().write(JSON.toJSONString(R.error("NOTLOGIN")));
       return;
     }
+    BaseContext.setCurrentId((Long) request.getSession().getAttribute("employee"));
     filterChain.doFilter(servletRequest, servletResponse);
   }
 

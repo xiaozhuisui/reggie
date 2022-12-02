@@ -26,6 +26,7 @@ public class R<T> {
     R r = new R();
     r.msg = msg;
     r.code = 0;
+    r.map=null;
     return r;
   }
 
